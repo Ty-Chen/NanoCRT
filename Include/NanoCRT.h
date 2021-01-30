@@ -1,27 +1,27 @@
-#ifndef __MINI_CRT_H__
-#define __MINI_CRT_H__
+#ifndef _NANO_CRT_H_
+#define _NANO_CRT_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-    //malloc 
 #ifndef NULL
 #define NULL (0)
 #endif
 
+    // 内存分配
     void free(void* ptr);
     void* malloc(unsigned long size);
-    static long brk(void *end_data_segment);
+    static long brk(void* end_data_segment);
     long mini_crt_init_heap();
 
-    //�ַ�
+    // 字符串
     char* itoa(long n, char* str, long radix);
     long strcmp(const char* src, const char* dst);
     char* strcpy(char* dest, const char* src);
     unsigned long strlen(const char* str);
 
-    //�ļ���IO
+    // 文件与IO
     typedef long FILE;
 
 #define EOF	(-1)
@@ -64,6 +64,4 @@ extern "C" {
 }
 #endif
 
-
-#endif // end __MINI_CRT_H__
-
+#endif // end _NANO_CRT_H_

@@ -1,4 +1,4 @@
-#include "minicrt.h"
+#include "../Include/NanoCRT.h"
 
 int main(long argc, char *argv[])
 {
@@ -21,4 +21,3 @@ int main(long argc, char *argv[])
 
     return 0;
 }
-
