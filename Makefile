@@ -3,19 +3,19 @@ AR = ar
 LD = ld
 
 MINICRT_LIB_SRC = entry.c malloc.c stdio.c string.c printf.c
-MINICRT_LIB_OBJS = malloc.o printf.o stdio.o string.o
+NANOCRT_LIB_OBJS = malloc.o printf.o stdio.o string.o
 ENTRY_OBJ = entry.o
-MINICRT_STATIC_LIB = minicrt.a
+NANOCRT_STATIC_LIB = nanocrt.a
 
 CFLAGS = -fno-builtin -nostdlib
 ARFLAGS = -rs
 
 TEST_SRC = test.c
 TEST_OBJ = test.o
-TEST_LD_SRC = $(ENTRY_OBJ) $(TEST_OBJ) $(MINICRT_STATIC_LIB)
+TEST_LD_SRC = $(ENTRY_OBJ) $(TEST_OBJ) $(NANOCRT_STATIC_LIB)
 TEST_CFLAGS = -ggdb -fno-builtin -nostdlib
 TEST_LDFLAGS = -static
-TEST_LD_ENTRY_FLAGS = -e mini_crt_entry
+TEST_LD_ENTRY_FLAGS = -e nano_crt_entry
 
 #----------------------------------------------
 ifeq ($(HIDE),)
@@ -25,7 +25,7 @@ hide :=
 endif
 
 #----------------------------------------------
-all: $(MINICRT_STATIC_LIB) test
+all: $(NANOCRT_STATIC_LIB) test
 
 test: $(TEST_LD_SRC)
 	$(hide) $(LD) $(TEST_LDFLAGS) $(TEST_LD_ENTRY_FLAGS) $^ -o $@
@@ -33,16 +33,16 @@ test: $(TEST_LD_SRC)
 $(TEST_OBJ): $(TEST_SRC)
 	$(hide) $(CC) -c $(TEST_CFLAGS) $<
 
-lib: $(MINICRT_STATIC_LIB)
+lib: $(NANOCRT_STATIC_LIB)
 
-$(MINICRT_STATIC_LIB): $(MINICRT_LIB_OBJS)
+$(NANOCRT_STATIC_LIB): $(NANOCRT_LIB_OBJS)
 ifeq ($(HIDE),)
 	$(hide) $(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
 else
 	$(hide) $(AR) $(ARFLAGS) $@ $^
 endif
 
-$(MINICRT_LIB_OBJS): $(MINICRT_LIB_SRC)
+$(NANOCRT_LIB_OBJS): $(MINICRT_LIB_SRC)
 
 %.o : %.c
 	$(hide) $(CC) -c $(CFLAGS) $<
