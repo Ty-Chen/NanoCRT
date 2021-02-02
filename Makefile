@@ -2,15 +2,15 @@ CC = gcc
 AR = ar
 LD = ld
 
-MINICRT_LIB_SRC = entry.c malloc.c stdio.c string.c printf.c
+MINICRT_LIB_SRC = Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
 NANOCRT_LIB_OBJS = malloc.o printf.o stdio.o string.o
 ENTRY_OBJ = entry.o
-NANOCRT_STATIC_LIB = nanocrt.a
+NANOCRT_STATIC_LIB = NanoCRT.a
 
 CFLAGS = -fno-builtin -nostdlib
 ARFLAGS = -rs
 
-TEST_SRC = test.c
+TEST_SRC = Test/test.c
 TEST_OBJ = test.o
 TEST_LD_SRC = $(ENTRY_OBJ) $(TEST_OBJ) $(NANOCRT_STATIC_LIB)
 TEST_CFLAGS = -ggdb -fno-builtin -nostdlib
