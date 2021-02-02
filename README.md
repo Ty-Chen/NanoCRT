@@ -18,9 +18,9 @@
 
 ```
 # gcc -c -fno-builtin -nostdlib Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
-# ar -rs minicrt.a malloc.o printf.o stdio.o string.o
+# ar -rs nanocrt.a malloc.o printf.o stdio.o string.o
 # gcc -c -ggdb -fno-builtin -nostdlib Test/test.c
-# ld -static -e mini_crt_entry entry.o test.o minicrt.a -o test
+# ld -static -e nano_crt_entry entry.o test.o nanocrt.a -o test
 ```
 
 #### linux (make)

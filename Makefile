@@ -2,7 +2,7 @@ CC = gcc
 AR = ar
 LD = ld
 
-MINICRT_LIB_SRC = Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
+NANOCRT_LIB_SRC = Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
 NANOCRT_LIB_OBJS = malloc.o printf.o stdio.o string.o
 ENTRY_OBJ = entry.o
 NANOCRT_STATIC_LIB = nanocrt.a
@@ -25,6 +25,9 @@ hide :=
 endif
 
 #----------------------------------------------
+%.o : %.c
+	$(hide) $(CC) -c $(CFLAGS) $<
+
 all: $(NANOCRT_STATIC_LIB) test
 
 test: $(TEST_LD_SRC)
@@ -36,16 +39,13 @@ $(TEST_OBJ): $(TEST_SRC)
 lib: $(NANOCRT_STATIC_LIB)
 
 $(NANOCRT_STATIC_LIB): $(NANOCRT_LIB_OBJS)
-ifeq ($(HIDE),)
-	$(hide) $(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
-else
+
+$(NANOCRT_LIB_OBJS): $(NANOCRT_LIB_SRC)
+#ifeq ($(HIDE),)
+#	$(hide) $(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
+#else
 	$(hide) $(AR) $(ARFLAGS) $@ $^
-endif
-
-$(NANOCRT_LIB_OBJS): $(MINICRT_LIB_SRC)
-
-%.o : %.c
-	$(hide) $(CC) -c $(CFLAGS) $<
+#endif
 
 .PHONY: clean
 clean:
