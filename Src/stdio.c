@@ -1,7 +1,7 @@
 //stdio.c
 #include "../Include/NanoCRT.h"
 
-long mini_crt_init_io()
+long nano_crt_init_io()
 {
     return	1;
 }

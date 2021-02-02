@@ -13,7 +13,7 @@ extern "C" {
     void free(void* ptr);
     void* malloc(unsigned long size);
     static long brk(void* end_data_segment);
-    long mini_crt_init_heap();
+    long nano_crt_init_heap();
 
     // 字符串
     char* itoa(long n, char* str, long radix);
@@ -39,7 +39,7 @@ extern "C" {
     //int 0x80中断不能显示64位的地址，所以不能用栈
     long write(long fd, const void *buffer, unsigned long size);
 
-    long mini_crt_init_io();
+    long nano_crt_init_io();
     FILE* fopen(const char *filename, const char* mode);
     long fread(void* buffer, long size, long count, FILE* stream);
     long fwrite(const void* buffer, long size, long count, FILE* stream);
@@ -54,7 +54,7 @@ extern "C" {
 
     //internal 
     void do_global_ctors();
-    void mini_crt_call_exit_routine();
+    void nano_crt_call_exit_routine();
 
     //atexit
     typedef void(*atexit_func_t)(void);

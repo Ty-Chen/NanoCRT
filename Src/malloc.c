@@ -107,7 +107,7 @@ static long brk(void* end_data_segment)
 #include <Windows.h>
 #endif
 
-long mini_crt_init_heap()
+long nano_crt_init_heap()
 {
     void *base = NULL;
     heap_header *header = NULL;

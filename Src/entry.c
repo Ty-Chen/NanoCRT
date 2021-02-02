@@ -14,7 +14,7 @@ static void crt_fatal_error(const char *msg)
     exit(1);
 }
 
-void mini_crt_entry(void)
+void nano_crt_entry(void)
 {
     long ret;
 
@@ -62,12 +62,12 @@ void mini_crt_entry(void)
 
 #endif
 
-    if (!mini_crt_init_heap())
+    if (!nano_crt_init_heap())
     {
         crt_fatal_error("heap initalize failed");
     }
 
-    if (!mini_crt_init_io())
+    if (!nano_crt_init_io())
     {
         crt_fatal_error("IO initalize failed");
     }
@@ -78,7 +78,7 @@ void mini_crt_entry(void)
 
 void exit(long exitCode)
 {
-    //mini_crt_call_exit_routine();
+    //nano_crt_call_exit_routine();
 #ifdef WIN32
     ExitProcess(exitCode);
 #else

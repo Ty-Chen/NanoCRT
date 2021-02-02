@@ -5,7 +5,7 @@ LD = ld
 MINICRT_LIB_SRC = Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
 NANOCRT_LIB_OBJS = malloc.o printf.o stdio.o string.o
 ENTRY_OBJ = entry.o
-NANOCRT_STATIC_LIB = NanoCRT.a
+NANOCRT_STATIC_LIB = nanocrt.a
 
 CFLAGS = -fno-builtin -nostdlib
 ARFLAGS = -rs
