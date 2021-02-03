@@ -25,8 +25,6 @@ hide :=
 endif
 
 #----------------------------------------------
-%.o : %.c
-	$(hide) $(CC) -c $(CFLAGS) $<
 
 all: $(NANOCRT_STATIC_LIB) test
 
@@ -39,13 +37,18 @@ $(TEST_OBJ): $(TEST_SRC)
 lib: $(NANOCRT_STATIC_LIB)
 
 $(NANOCRT_STATIC_LIB): $(NANOCRT_LIB_OBJS)
-
-$(NANOCRT_LIB_OBJS): $(NANOCRT_LIB_SRC)
-#ifeq ($(HIDE),)
-#	$(hide) $(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
-#else
+ifeq ($(HIDE),)
+	$(hide) $(AR) $(ARFLAGS) $@ $^ >/dev/null 2>&1
+else
 	$(hide) $(AR) $(ARFLAGS) $@ $^
-#endif
+endif
+
+$(NANOCRT_LIB_OBJS): 
+	$(hide) $(CC) -c $(CFLAGS) $(NANOCRT_LIB_SRC)
+	
+#$(NANOCRT_LIB_SRC)
+%.o : %.c
+	$(hide) $(CC) -c $(CFLAGS) $<	
 
 .PHONY: clean
 clean:
