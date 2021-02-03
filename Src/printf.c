@@ -21,7 +21,9 @@ long fputs(const char* str, FILE *stream)
     long len = strlen(str);
     if (len >= __fputs_tmp_size__)
         return EOF;
+
     strcpy(__fputs_tmp_array__, str);
+
     if (fwrite(__fputs_tmp_array__, 1, len, stream) != len)
     {
         return EOF;
@@ -34,8 +36,8 @@ long fputs(const char* str, FILE *stream)
 
 #ifndef WIN32
 #define va_list char*
-#define va_start(ap,arg) (ap=(va_list)&arg+sizeof(arg))
-#define va_arg(ap,t)	(*(t*)((ap+=sizeof(t)) - sizeof(t)))
+#define va_start(ap,arg) (ap = (va_list)&arg + sizeof(arg))
+#define va_arg(ap,t)	(*(t*)((ap += sizeof(t)) - sizeof(t)))
 #define va_end(ap) (ap=(va_list)0)
 #else
 #include <Windows.h>
@@ -43,9 +45,9 @@ long fputs(const char* str, FILE *stream)
 
 static long vfprintf(FILE* stream, const char *format, va_list arglist)
 {
-    long translating = 0;
-    long ret = 0;
-    const	char* p = 0;
+    long        translating = 0;
+    long        ret         = 0;
+    const char* p           = 0;
     for (p = format; *p != '\0'; ++p)
     {
         switch (*p)
@@ -133,17 +135,29 @@ static long vfprintf(FILE* stream, const char *format, va_list arglist)
 
 long printf(const char *format, ...)
 {
+#ifdef WIN32
+    va_list(arglist);
+    va_start(arglist, format);
+#else
     char* arglist;
     asm("movq %%rbp,%0":"=r"(arglist));
     arglist -= 0xa8;
+#endif // 
+
     return vfprintf(stdout, format, arglist);
 }
 
 long fprintf(FILE* stream, const char *format, ...)
 {
+#ifdef WIN32
+    va_list(arglist);
+    va_start(arglist, format);
+#else
     char* arglist;
     asm("movq %%rbp,%0":"=r"(arglist));
     arglist -= 0xa8;
+#endif // WIN32
+
     return vfprintf(stream, format, arglist);
 }
 

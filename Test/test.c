@@ -12,7 +12,7 @@ int main(long argc, char *argv[])
         char* buf = "hello how are you \n";
         long len = strlen(buf);
         fwrite(buf, 1, len, fp);
-        write(0, "c", 1);
+        //fwrite(0, "c", 1);
         printf("hello world\n");
         printf("%d  %s\n", len, buf);
     }

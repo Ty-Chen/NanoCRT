@@ -8,10 +8,9 @@
 
 ```
 >cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
-
->lib entry.obj malloc.obj printf.obj stdio.obj string.obj /OUT:minicrt.lib
->cl /c /DWIN32 test.c
->link test.obj minicrt.lib kernel32.lib /NODEFAULTLIB /entry:mini_crt_entry
+>lib entry.obj malloc.obj printf.obj stdio.obj string.obj /OUT:nanocrt.lib
+>cl /c /DWIN32 Test/test.c
+>link test.obj nanocrt.lib kernel32.lib /NODEFAULTLIB /entry:nano_crt_entry
 ```
 
 ### linux (手动编译链接)
