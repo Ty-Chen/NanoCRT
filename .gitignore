@@ -34,3 +34,6 @@
 # IDE
 *.vs
 *.vscode
+
+# Test Files
+*.txt
