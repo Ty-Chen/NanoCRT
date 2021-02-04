@@ -2,21 +2,17 @@
 
 一个简易的跨平台64位运行时库，兼容Linux和Windows。
 
----
-
 ## 文件结构
 
 - Include：运行时库头文件
 - Src：源码
 - Test：测试用例
 
----
-
 ## 使用方式
 
 ### window (手动编译链接)
 
-```
+```shell
 编译库
 >cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
 >lib entry.obj malloc.obj printf.obj stdio.obj string.obj /OUT:nanocrt.lib
@@ -28,7 +24,7 @@
 
 ### linux (手动编译链接)
 
-```
+```shell
 # 编译库
 # gcc -c -fno-builtin -nostdlib Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
 # ar -rs nanocrt.a malloc.o printf.o stdio.o string.o
@@ -40,15 +36,13 @@
 
 ### linux (make)
 
-```
+```shell
 # 编译全部/库/测试用例，默认全部编译
 make (all/lib/test)
 
 # 清理
 make clean
 ```
-
----
 
 ## 主要功能
 
@@ -61,7 +55,5 @@ make clean
 - #### 字符串操作
 
 - #### 格式化字符串
-
----
 
 ## 待做功能
