@@ -151,10 +151,10 @@ FILE* fopen(const char *filename, const char* mode)
 {
     long fd = -1;
     long flags = 0;
-    long access = 00700; //�����ļ���Ȩ��
+    long access = 00700; // 创建文件的权限
 
-    //������/usr/include/bits/fcntl.h
-    //ע�⣺��0��ʼ�����ֵİ˽��Ƶ�
+    // 来自于 /usr/include/bits/fcntl.h
+    // 注意：以0开始的数字是八进制的
 #define O_RDONLY	00
 #define O_WRONLY	01
 #define O_RDWR		02
