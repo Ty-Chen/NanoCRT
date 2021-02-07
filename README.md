@@ -46,14 +46,14 @@ make clean
 
 ## 主要功能
 
-- #### 入口、初始化及结束功能
+- #### [入口、初始化及结束功能](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/entry.md)
 
-- #### 内存分配（堆）
+- #### [内存分配（堆）](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/malloc.md)
 
-- #### I/O与文件操作
+- #### [I/O与文件操作](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/IO.md)
 
-- #### 字符串操作
+- #### [字符串操作](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/string.md)
 
-- #### 格式化字符串
+- #### [格式化字符串](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/printf.md)
 
 ## 待做功能
