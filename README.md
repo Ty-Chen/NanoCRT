@@ -44,7 +44,7 @@ make (all/lib/test)
 make clean
 ```
 
-## 主要功能
+## 主要功能及待做功能
 
 - #### [入口、初始化及结束功能](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/entry.md)
 
@@ -56,4 +56,3 @@ make clean
 
 - #### [格式化字符串](https://github.com/Ty-Chen/NanoCRT/blob/main/Doc/printf.md)
 
-## 待做功能

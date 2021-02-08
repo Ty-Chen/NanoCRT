@@ -14,6 +14,7 @@ static void crt_fatal_error(const char *msg)
     exit(1);
 }
 
+// 入口函数
 void nano_crt_entry(void)
 {
     long ret;
@@ -53,15 +54,15 @@ void nano_crt_entry(void)
 #else
     long argc;
     char** argv;
-    char* ebp_reg = 0;
+    char* rbp_reg = 0;
     //ebp_reg = %ebp
-    asm("movq %%rbp,%0 \n":"=r"(ebp_reg));
+    asm("movq %%rbp,%0 \n":"=r"(rbp_reg));
 
-    argc = *(long*)(ebp_reg + 4);
-    argv = (char**)(ebp_reg + 8);
-
+    argc = *(long*)(rbp_reg + 4);
+    argv = (char**)(rbp_reg + 8);
 #endif
 
+    // 初始化
     if (!nano_crt_init_heap())
     {
         crt_fatal_error("heap initalize failed");
@@ -73,9 +74,12 @@ void nano_crt_entry(void)
     }
 
     ret = main(argc, argv);
+
+    // 结束部分
     exit(ret);
 }
 
+// 结束部分
 void exit(long exitCode)
 {
     //nano_crt_call_exit_routine();
