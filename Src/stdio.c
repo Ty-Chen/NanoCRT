@@ -1,6 +1,7 @@
 //stdio.c
 #include "../Include/NanoCRT.h"
 
+// 因为没有增加Buffer，目前并不需要初始化
 long nano_crt_init_io()
 {
     return	1;
@@ -11,30 +12,31 @@ long nano_crt_init_io()
 
 FILE* fopen(const char *filename, const char* mode)
 {
-    HANDLE hFile = 0;
-    long access = 0;
-    long creation = 0;
+    HANDLE hFile    = 0;
+    long   access   = 0;
+    long   creation = 0;
+
     if (strcmp(mode, "w") == 0)
     {
-        access |= GENERIC_WRITE;
+        access   |= GENERIC_WRITE;
         creation |= CREATE_ALWAYS;
     }
 
     if (strcmp(mode, "w+") == 0)
     {
-        access |= GENERIC_WRITE | GENERIC_READ;
+        access   |= GENERIC_WRITE | GENERIC_READ;
         creation |= CREATE_ALWAYS;
     }
 
     if (strcmp(mode, "r") == 0)
     {
-        access |= GENERIC_READ;
+        access  |= GENERIC_READ;
         creation = CREATE_ALWAYS;
     }
 
     if (strcmp(mode, "r+") == 0)
     {
-        access |= GENERIC_WRITE | GENERIC_READ;
+        access   |= GENERIC_WRITE | GENERIC_READ;
         creation |= TRUNCATE_EXISTING;
     }
 
@@ -83,13 +85,14 @@ long fseek(FILE* fp, long offset, long set)
 static long open(const char* filename, long flags, long mode)
 {
     long fd = 0;
-    asm("movq $5,%%rax		\n\t"
-        "movq %1,%%rbx	\n\t"
-        "movq %2,%%rcx \n\t"
-        "movq %3,%%rdx \n\t"
-        "int $0x80  \n\t"
-        "movq %%rax,%0 \n\t":
-    "=m"(fd) : "m"(filename), "m"(flags), "m"(mode));
+
+    asm("movq $5, %%rax  \n\t"
+        "movq %1, %%rbx  \n\t"
+        "movq %2, %%rcx  \n\t"
+        "movq %3, %%rdx  \n\t"
+        "int $0x80       \n\t"
+        "movq %%rax, %0  \n\t":
+        "=m"(fd) : "m"(filename), "m"(flags), "m"(mode));
 
     return fd;
 }
@@ -97,26 +100,29 @@ static long open(const char* filename, long flags, long mode)
 static long read(long fd, void* buffer, unsigned long size)
 {
     long ret = 0;
-    asm("movq $3,%%rax \n\t"
-        "movq %1,%%rbx \n\t"
-        "movq %2,%%rcx \n\t"
-        "movq %3, %%rdx \n\t"
-        "int $0x80  \n\t"
-        "movq %%rax,%0  \n\t":
-    "=m"(ret) : "m"(fd), "m"(buffer), "m"(size));
+
+    asm("movq $3, %%rax  \n\t"
+        "movq %1, %%rbx  \n\t"
+        "movq %2, %%rcx  \n\t"
+        "movq %3, %%rdx  \n\t"
+        "int $0x80       \n\t"
+        "movq %%rax,%0   \n\t":
+        "=m"(ret) : "m"(fd), "m"(buffer), "m"(size));
+
     return ret;
 }
 
 long write(long fd, const void *buffer, unsigned long size)
 {
     long ret = 0;
-    asm("movq $4,%%rax  \n\t"
-        "movq %1,%%rbx \n\t"
-        "movq %2,%%rcx  \n\t"
-        "movq %3,%%rdx \n\t"
-        "int $0x80  \n\t"
-        "movq %%rax,%0 \n\t":
-    "=m"(ret) : "m"(fd), "m"(buffer), "m"(size));
+
+    asm("movq $4, %%rax  \n\t"
+        "movq %1, %%rbx  \n\t"
+        "movq %2, %%rcx  \n\t"
+        "movq %3, %%rdx  \n\t"
+        "int $0x80       \n\t"
+        "movq %%rax, %0  \n\t":
+        "=m"(ret) : "m"(fd), "m"(buffer), "m"(size));
 
     return ret;
 }
@@ -124,11 +130,12 @@ long write(long fd, const void *buffer, unsigned long size)
 static long close(long fd)
 {
     long ret = 0;
-    asm("movq $6,%%rax  \n\t"
-        "movq %1,%%rbx  \n\t"
-        "int $0x80  \n\t"
-        "movq %%rax,%0 \n\t":
-    "=m"(ret) : "m"(fd));
+
+    asm("movq $6, %%rax  \n\t"
+        "movq %1, %%rbx  \n\t"
+        "int $0x80       \n\t"
+        "movq %%rax, %0  \n\t":
+        "=m"(ret) : "m"(fd));
 
     return	ret;
 }
@@ -136,21 +143,22 @@ static long close(long fd)
 static long seek(long fd, long offset, long mode)
 {
     long ret = 0;
-    asm("movq $19,%%rax  \n\t"
-        "movq %1,%%rbx \n\t"
-        "movq %2,%%rcx  \n\t"
-        "movq %3,%%rdx \n\t"
-        "int $0x80  \n\t"
-        "movq %%rax,%0 \n\t":
-    "=m"(ret) : "m"(fd), "m"(offset), "m"(mode));
+
+    asm("movq $19, %%rax  \n\t"
+        "movq %1, %%rbx   \n\t"
+        "movq %2, %%rcx   \n\t"
+        "movq %3, %%rdx   \n\t"
+        "int $0x80        \n\t"
+        "movq %%rax, %0   \n\t":
+        "=m"(ret) : "m"(fd), "m"(offset), "m"(mode));
 
     return ret;
 }
 
 FILE* fopen(const char *filename, const char* mode)
 {
-    long fd = -1;
-    long flags = 0;
+    long fd     = -1;
+    long flags  = 0;
     long access = 00700; // 创建文件的权限
 
     // 来自于 /usr/include/bits/fcntl.h

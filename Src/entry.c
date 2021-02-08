@@ -86,8 +86,8 @@ void exit(long exitCode)
 #ifdef WIN32
     ExitProcess(exitCode);
 #else
-    asm("movq %0,%%rbx \n\t"
-        "movq $1,%%rax \n\t"
+    asm("movq %0, %%rbx \n\t"
+        "movq $1, %%rax \n\t"
         "int $0x80		\n\t"
         "hlt    \n\t"::"m"(exitCode));
 #endif

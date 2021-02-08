@@ -47,7 +47,8 @@ void free(void* ptr)
 
 void* malloc(unsigned long size)
 {
-    heap_header *header;
+    heap_header* header;
+
     if (size == 0)
     {
         return NULL;
@@ -56,31 +57,38 @@ void* malloc(unsigned long size)
     header = list_head;
     while (header != 0)
     {
+        // 找到第一个空闲块
         if (header->type == HEAP_BLOCK_USED)
         {
             header = header->next;
             continue;
         }
 
+        // 如果恰好合适则使用
         if ((header->size > size + HEADER_SIZE)
             && (header->size <= size + HEADER_SIZE * 2))
         {
             header->type = HEAP_BLOCK_USED;
+            return	ADDR_ADD(header, HEADER_SIZE);
         }
 
+        // 太大了则分裂
         if (header->size > size + HEADER_SIZE * 2)
         {
             //split
             heap_header* next = (heap_header*)ADDR_ADD(header, size + HEADER_SIZE);
-            next->prev = header;
-            next->next = header->next;
-            next->type = HEAP_BLOCK_FREE;
-            next->size = header->size - (size - HEADER_SIZE);
+            next->prev   = header;
+            next->next   = header->next;
+            next->type   = HEAP_BLOCK_FREE;
+            next->size   = header->size - (size - HEADER_SIZE);
+
             header->next = next;
             header->size = size + HEADER_SIZE;
             header->type = HEAP_BLOCK_USED;
+
             return	ADDR_ADD(header, HEADER_SIZE);
         }
+
         header = header->next;
     }
 
@@ -96,9 +104,9 @@ static long brk(void* end_data_segment)
     //long //usr/include/asm-i386/unistd.h
     //#define __NR_brk 45
     asm("movq $45, %%rax   \n\t"
-        "movq %1, %%rbx  \n\t"
-        "int $0x80		\n\t"
-        "movq %%rax,%0  \n\t"
+        "movq %1, %%rbx    \n\t"
+        "int $0x80		   \n\t"
+        "movq %%rax, %0    \n\t"
         : "=r"(ret) : "m"(end_data_segment));
 }
 #endif
@@ -109,8 +117,9 @@ static long brk(void* end_data_segment)
 
 long nano_crt_init_heap()
 {
-    void *base = NULL;
-    heap_header *header = NULL;
+    void*         base      = NULL;
+    heap_header*  header    = NULL;
+
     //32MB heap size
     unsigned long heap_size = 1024 * 1024 * 32;
 

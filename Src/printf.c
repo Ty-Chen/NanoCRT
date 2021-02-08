@@ -48,6 +48,7 @@ static long vfprintf(FILE* stream, const char *format, va_list arglist)
     long        translating = 0;
     long        ret         = 0;
     const char* p           = 0;
+
     for (p = format; *p != '\0'; ++p)
     {
         switch (*p)
@@ -90,7 +91,7 @@ static long vfprintf(FILE* stream, const char *format, va_list arglist)
             }
             break;
 
-        case	's':
+        case 's':
             if (translating)
             {
                 const char *str = va_arg(arglist, const char*);
@@ -142,7 +143,7 @@ long printf(const char *format, ...)
     char* arglist;
     asm("movq %%rbp,%0":"=r"(arglist));
     arglist -= 0xa8;
-#endif // 
+#endif 
 
     return vfprintf(stdout, format, arglist);
 }
