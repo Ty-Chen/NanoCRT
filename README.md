@@ -1,6 +1,6 @@
 # NanoCRT
 
-一个简易的跨平台64位C运行时库，兼容Linux和Windows。
+一个简易的跨平台64位C/C++运行时库，兼容Linux和Windows。
 
 ## 文件结构
 
