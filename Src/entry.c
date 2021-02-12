@@ -10,7 +10,7 @@ void exit(long);
 
 static void crt_fatal_error(const char *msg)
 {
-    //printf("fatal error : %s",msg);
+    printf("fatal error : %s",msg);
     exit(1);
 }
 
@@ -73,6 +73,8 @@ void nano_crt_entry(void)
         crt_fatal_error("IO initalize failed");
     }
 
+    do_global_ctors();
+
     ret = main(argc, argv);
 
     // 结束部分
@@ -82,7 +84,7 @@ void nano_crt_entry(void)
 // 结束部分
 void exit(long exitCode)
 {
-    //nano_crt_call_exit_routine();
+    nano_crt_call_exit_routine();
 #ifdef WIN32
     ExitProcess(exitCode);
 #else
