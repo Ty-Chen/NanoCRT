@@ -65,7 +65,7 @@ long strcmp(const char* src, const char* dst)
     return (ret);
 }
 
-char * strcpy(char* dest, const char* src)
+char* strcpy(char* dest, const char* src)
 {
     char* ret = dest;
     while (*src)
