@@ -20,4 +20,16 @@ namespace std
         unsigned length() const;
         unsigned size() const;
     };
+
+    string::string(const char* str) :
+        len(0), pbuf(0)
+    {
+        *this = str;
+    }
+
+    string::string(const string& s) :
+        len(0), pbuf(0)
+    {
+        *this = s;
+    }
 }
