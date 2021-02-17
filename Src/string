@@ -32,4 +32,23 @@ namespace std
     {
         *this = s;
     }
+
+    string::~string()
+    {
+        if (pbuf != 0)
+        {
+            delete[] pbuf;
+            pbuf = 0;
+        }
+    }
+
+    string & string::operator=(const string& s)
+    {
+        if (&s == this)
+        {
+            return *this;
+        }
+
+        this->~string();
+    }
 }
