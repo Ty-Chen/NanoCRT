@@ -13,25 +13,44 @@
 ### window (手动编译链接)
 
 ```shell
-编译库
->cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
->lib entry.obj malloc.obj printf.obj stdio.obj string.obj /OUT:nanocrt.lib
+编译C库
+>cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c Src/atexit.c
+>lib entry.obj malloc.obj printf.obj stdio.obj string.obj atexit.obj /OUT:nanocrt.lib
 
-编译测试用例
+编译C/C++库
+>cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
+>cl /c /DWIN32 /GS- /GR- Src/crtbegin.cpp Src/crtend.cpp Src/ctor.cpp Src/new_delete.cpp Src/iostream.cpp
+>lib entry.obj malloc.obj printf.obj stdio.obj string.obj ctor.obj new_delete.obj atexit.obj iostream.obj /OUT:nanocrt.lib
+
+编译C测试用例
 >cl /c /DWIN32 Test/test.c
 >link test.obj nanocrt.lib kernel32.lib /NODEFAULTLIB /entry:nano_crt_entry
+
+编译C++测试用例
+>cl /c /DWIN32 Test/test2.cpp
+>link test2.obj nanocrt.lib kernel32.lib /NODEFAULTLIB /entry:nano_crt_entry
+
 ```
 
 ### linux (手动编译链接)
 
 ```shell
-# 编译库
-# gcc -c -fno-builtin -nostdlib Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c
-# ar -rs nanocrt.a malloc.o printf.o stdio.o string.o
-#
-# 编译测试用例
+# 编译C库
+# gcc -c -fno-builtin -nostdlib Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c Src/atexit.c
+# ar -rs nanocrt.a malloc.o printf.o stdio.o string.o atexit.o
+
+# 编译C++库
+# gcc -c -fno-builtin -nostdlib -fno-stack-protector Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c Src/atexit.c
+# g++ -c -nostdinc++ -fno-rtti -fno-exceptions -fno-builtin -nostdlib -fno-stack-protector Src/crtbegin.cpp Src/crtend.cpp Src/ctor.cpp Src/new_delete.cpp Src/iostream.cpp
+# ar -rs nanocrt.a entry.obj malloc.obj printf.obj stdio.obj string.obj ctor.obj new_delete.obj atexit.obj iostream.obj
+
+# 编译C测试用例
 # gcc -c -ggdb -fno-builtin -nostdlib Test/test.c
 # ld -static -e nano_crt_entry entry.o test.o nanocrt.a -o test
+
+# 编译C++测试用例
+# g++ -c -nostdinc++ -fno-rtti -fno-exceptions -fno-builtin -nostdlib -fno-stack-protector Test/test2.cpp
+# ld -static -e nano_crt_entry entry.o crtbegin.o test2.o nanocrt.a crtend.o -o test2
 ```
 
 ### linux (make)
