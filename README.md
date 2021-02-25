@@ -12,6 +12,8 @@
 
 ### window (手动编译链接)
 
+#### 编译命令
+
 ```shell
 编译C库
 >cl /c /DWIN32 /GS- Src/entry.c Src/malloc.c Src/stdio.c Src/string.c Src/printf.c Src/atexit.c
@@ -31,6 +33,11 @@
 >link test2.obj nanocrt.lib kernel32.lib /NODEFAULTLIB /entry:nano_crt_entry
 
 ```
+
+#### 参数说明
+
+- `/DWIN32`表示定义宏WIN32，用以区分平台
+- `/GS-`表示关闭堆栈保护功能，最新版gcc会在变长参数函数中加入堆栈保护功能（如`vprintf()`）
 
 ### linux (手动编译链接)
 
