@@ -37,9 +37,12 @@
 #### 参数说明
 
 - `/DWIN32`表示定义宏WIN32，用以区分平台
-- `/GS-`表示关闭堆栈保护功能，最新版gcc会在变长参数函数中加入堆栈保护功能（如`vprintf()`）
+- `/GS-`表示关闭堆栈保护功能，MSVC的堆栈保护可能会导致如`__security_cookie`以及`__security_check_cookie`符号未定义错误。
+- `/GR`表示关闭RTTI功能，否则编译器会为有虚拟函数的类产生RTTI相关代码，在最终链接时会看到`const type_info::vftable`符号未定义的错误。
 
 ### linux (手动编译链接)
+
+#### 编译命令
 
 ```shell
 # 编译C库
@@ -59,6 +62,14 @@
 # g++ -c -nostdinc++ -fno-rtti -fno-exceptions -fno-builtin -nostdlib -fno-stack-protector Test/test2.cpp
 # ld -static -e nano_crt_entry entry.o crtbegin.o test2.o nanocrt.a crtend.o -o test2
 ```
+
+#### 参数说明
+
+- `-fno-builtin`参数指关闭GCC的内置函数功能。默认情况下GCC会把strlen、strcmp等这些常用函数展开成它内部的实现。
+- `-nostdlib`表示不使用任何来自Glibc、GCC的库文件和启动文件，它包含了-nostartfiles这个参数。
+- `-fno-stack-protector`表示关闭堆栈保护功能，如果不关闭，在使用变长API时可能会出现`__stack_chk_fail`的错误。
+- `fno-rtti`作用同`cl`的`/GR-`
+- `-fno-exceptions`的作用是用于关闭异常支持，否则GCC会产生异常支持代码，可能导致链接错误。
 
 ### linux (make)
 
